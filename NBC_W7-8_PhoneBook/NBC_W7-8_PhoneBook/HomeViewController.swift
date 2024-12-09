@@ -89,7 +89,6 @@ class HomeViewController: UIViewController {
         titleLabel.snp.makeConstraints { title in
             title.top.equalToSuperview()
             title.centerX.equalToSuperview()
-            title.width.equalTo(100)
         }
         
         addItemButton.snp.makeConstraints { button in
