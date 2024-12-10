@@ -39,7 +39,7 @@ class HomeViewController: UIViewController {
     
     // 임시 데이터
     var mockData: [PhoneBookData] = [PhoneBookData(image: UIImage(systemName: "person"),
-                                                   name: "name", phoneNumber: "010-0000-0000"),
+                                                   name: "name", phoneNumber: "010-0000-1234"),
                                      PhoneBookData(image: UIImage(systemName: "person"),
                                                    name: "name", phoneNumber: "010-0000-0000"),
                                      PhoneBookData(image: UIImage(systemName: "person"),
@@ -56,28 +56,22 @@ class HomeViewController: UIViewController {
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
         setupUI()
-        navigationController?.isNavigationBarHidden = true
+        title = "친구 목록"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addItemButton)
     }
     
     private func setupUI() {
-        setupTopLabel()
         setupProfileTableView()
         
-        [topLabel, mainTableView]
-            .forEach{view.addSubview($0)}
+        view.addSubview(mainTableView)
         
-        topLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(30)
-            make.width.equalToSuperview()
-            make.height.equalTo(100)
-        }
         addItemButton.addTarget(self, action: #selector(goToPhoneBookVC), for: .touchUpInside)
         
         mainTableView.snp.makeConstraints { table in
-            table.top.equalTo(titleLabel.snp.bottom)
+            table.top.equalTo(view.safeAreaLayoutGuide).inset(30)
             table.width.equalToSuperview()
             table.bottom.equalToSuperview()
-            table.centerX.equalToSuperview()
+            table.centerX.equalToSuperview().inset(20)
         }
     }
     

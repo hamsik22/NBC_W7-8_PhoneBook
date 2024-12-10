@@ -57,7 +57,13 @@ class PhoneBookViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        title = "연락처 추가"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "적용", style: .plain, target: self, action: #selector(addPhoneData))
         setupUI()
+    }
+    
+    @objc func addPhoneData() {
+        print("적용")
     }
     
     private func setupUI() {
@@ -65,7 +71,7 @@ class PhoneBookViewController: UIViewController {
             .forEach { stackView.addSubview($0) }
         
         profileImage.snp.makeConstraints { image in
-            image.top.equalToSuperview().offset(20)
+            image.top.equalTo(stackView.snp.top)
             image.centerX.equalToSuperview()
             image.width.equalTo(200)
             image.height.equalTo(200)
@@ -97,7 +103,7 @@ class PhoneBookViewController: UIViewController {
         
         stackView.snp.makeConstraints { stack in
             stack.width.equalToSuperview()
-            stack.top.equalToSuperview()
+            stack.top.equalTo(view.safeAreaLayoutGuide).offset(30)
             
         }
     }
