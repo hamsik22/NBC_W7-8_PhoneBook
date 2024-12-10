@@ -100,7 +100,7 @@ class HomeViewController: UIViewController {
     }
     
     @objc func goToPhoneBookVC() {
-        print("Touched")
+        print("화면이동")
         let phoneBookVC = PhoneBookViewController()
         if let navigationController = navigationController {
             navigationController.pushViewController(phoneBookVC, animated: true)
@@ -129,4 +129,3 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
 }
-

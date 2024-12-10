@@ -8,6 +8,7 @@
 import SwiftUI
 import UIKit
 import SnapKit
+import Alamofire
 
 class PhoneBookViewController: UIViewController {
     
@@ -63,7 +64,32 @@ class PhoneBookViewController: UIViewController {
     }
     
     @objc func addPhoneData() {
-        print("적용")
+        print("데이터 저장")
+    }
+    
+    @objc func generateRandomImage() {
+        print("이미지 생성")
+        let urlComponents = URLComponents(string: "https://pokeapi.co/api/v2/pokemon/\(Int.random(in: 1...1000))")
+        guard let url = urlComponents?.url else { return }
+        
+        fetchDataByAlamofire(url: url) { [weak self] (result: Result<Poketmon, AFError>) in
+            switch result {
+            case .success(let result):
+                let imageUrl = result.sprites.frontDefault
+                AF.request(imageUrl).responseData { response in
+                    guard let data = response.data else { return }
+                    self?.profileImage.image = UIImage(data: data)
+                }
+            case .failure(let error):
+                print("error : \(error)")
+            }
+        }
+    }
+    
+    private func fetchDataByAlamofire<T: Decodable>(url: URL, completion: @escaping (Result<T, AFError>) -> Void) {
+        AF.request(url).responseDecodable(of: T.self) { response in
+            completion(response.result)
+        }
     }
     
     private func setupUI() {
@@ -84,6 +110,8 @@ class PhoneBookViewController: UIViewController {
             button.height.equalTo(30)
             button.centerY.equalToSuperview()
         }
+        
+        imageButton.addTarget(self, action: #selector(generateRandomImage), for: .touchUpInside)
         
         nameLabel.snp.makeConstraints { name in
             name.top.equalTo(imageButton.snp.bottom).offset(20)
