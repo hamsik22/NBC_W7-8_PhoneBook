@@ -31,8 +31,6 @@ class HomeViewController: UIViewController {
         return button
     }()
     
-    
-    
     let mainTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -61,10 +59,6 @@ class HomeViewController: UIViewController {
         navigationController?.isNavigationBarHidden = true
     }
     
-    @objc func someFunction() {
-        print("yes")
-    }
-    
     private func setupUI() {
         setupTopLabel()
         setupProfileTableView()
@@ -77,9 +71,10 @@ class HomeViewController: UIViewController {
             make.width.equalToSuperview()
             make.height.equalTo(100)
         }
+        addItemButton.addTarget(self, action: #selector(goToPhoneBookVC), for: .touchUpInside)
         
         mainTableView.snp.makeConstraints { table in
-            table.top.equalTo(topLabel.snp.bottom).offset(10)
+            table.top.equalTo(titleLabel.snp.bottom)
             table.width.equalToSuperview()
             table.bottom.equalToSuperview()
             table.centerX.equalToSuperview()
@@ -103,13 +98,19 @@ class HomeViewController: UIViewController {
             make.width.equalTo(50)
             make.height.equalTo(30)
         }
-        addItemButton.addTarget(self, action: #selector(someFunction), for: .touchUpInside)
     }
-    
     private func setupProfileTableView() {
         mainTableView.dataSource = self
         mainTableView.delegate = self
         mainTableView.register(ProfileCell.self, forCellReuseIdentifier: "profileCell")
+    }
+    
+    @objc func goToPhoneBookVC() {
+        print("Touched")
+        let phoneBookVC = PhoneBookViewController()
+        if let navigationController = navigationController {
+            navigationController.pushViewController(phoneBookVC, animated: true)
+        }
     }
     
 }
