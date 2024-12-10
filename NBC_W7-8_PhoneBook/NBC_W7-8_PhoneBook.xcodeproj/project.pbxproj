@@ -19,28 +19,16 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
-				Model/NBC_W7_8_PhoneBook.xcdatamodeld,
 			);
 			target = C339016B2D068D5700480384 /* NBC_W7-8_PhoneBook */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		C33901CD2D06C46D00480384 /* Exceptions for "NBC_W7-8_PhoneBook" folder in "Compile Sources" phase from "NBC_W7-8_PhoneBook" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = C33901682D068D5700480384 /* Sources */;
-			membershipExceptions = (
-				Model/NBC_W7_8_PhoneBook.xcdatamodeld,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C33901C22D06C46D00480384 /* NBC_W7-8_PhoneBook */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				C33901CC2D06C46D00480384 /* Exceptions for "NBC_W7-8_PhoneBook" folder in "NBC_W7-8_PhoneBook" target */,
-				C33901CD2D06C46D00480384 /* Exceptions for "NBC_W7-8_PhoneBook" folder in "Compile Sources" phase from "NBC_W7-8_PhoneBook" target */,
 			);
 			path = "NBC_W7-8_PhoneBook";
 			sourceTree = "<group>";

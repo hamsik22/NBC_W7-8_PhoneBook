@@ -10,9 +10,8 @@ import SnapKit
 
 class HomeViewController: UIViewController {
     
-    let topStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
+    let topLabel: UIView = {
+        let stackView = UIView()
         return stackView
     }()
     
@@ -20,6 +19,7 @@ class HomeViewController: UIViewController {
         let label = UILabel()
         label.text = "친구 목록"
         label.font = .boldSystemFont(ofSize: 20)
+        label.textAlignment = .center
         return label
     }()
     
@@ -58,45 +58,52 @@ class HomeViewController: UIViewController {
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
         setupUI()
+        navigationController?.isNavigationBarHidden = true
+    }
+    
+    @objc func someFunction() {
+        print("yes")
     }
     
     private func setupUI() {
-        setupTopStackView()
+        setupTopLabel()
         setupProfileTableView()
         
-        [topStackView, mainTableView]
-            .forEach { view.addSubview($0) }
+        [topLabel, mainTableView]
+            .forEach{view.addSubview($0)}
         
-        topStackView.snp.makeConstraints { title in
-            title.top.equalToSuperview().offset(75)
-            title.width.equalToSuperview()
-            title.height.equalTo(50)
-            title.centerX.equalToSuperview()
+        topLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(30)
+            make.width.equalToSuperview()
+            make.height.equalTo(100)
         }
         
         mainTableView.snp.makeConstraints { table in
-            table.top.equalTo(topStackView.snp.bottom)
+            table.top.equalTo(topLabel.snp.bottom).offset(10)
             table.width.equalToSuperview()
             table.bottom.equalToSuperview()
             table.centerX.equalToSuperview()
         }
     }
     
-    private func setupTopStackView() {
-        [titleLabel,addItemButton]
-            .forEach{ topStackView.addSubview($0) }
+    private func setupTopLabel() {
+        [titleLabel, addItemButton]
+            .forEach { topLabel.addSubview($0) }
         
-        titleLabel.snp.makeConstraints { title in
-            title.top.equalToSuperview()
-            title.centerX.equalToSuperview()
+        
+        titleLabel.snp.makeConstraints { make in
+            
+            make.center.equalTo(topLabel)
+            make.width.equalTo(150)
         }
         
-        addItemButton.snp.makeConstraints { button in
-            button.top.equalToSuperview()
-            button.centerY.equalTo(titleLabel.snp.centerY)
-            button.right.equalToSuperview().inset(30)
-            button.width.equalTo(50)
+        addItemButton.snp.makeConstraints { make in
+            make.right.equalTo(topLabel).inset(20)
+            make.centerY.equalTo(topLabel)
+            make.width.equalTo(50)
+            make.height.equalTo(30)
         }
+        addItemButton.addTarget(self, action: #selector(someFunction), for: .touchUpInside)
     }
     
     private func setupProfileTableView() {
