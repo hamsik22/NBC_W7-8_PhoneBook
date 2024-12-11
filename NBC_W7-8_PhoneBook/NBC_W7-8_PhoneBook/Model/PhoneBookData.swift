@@ -10,7 +10,7 @@ import UIKit
 /// 연락처 정보
 struct PhoneBookData {
     let id = UUID()
-    let image: UIImage?
+    let image: String
     let name: String
     let phoneNumber: String
 }

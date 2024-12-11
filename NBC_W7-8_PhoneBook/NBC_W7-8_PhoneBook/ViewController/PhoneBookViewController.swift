@@ -54,6 +54,10 @@ class PhoneBookViewController: UIViewController {
         label.layer.cornerRadius = 10
         return label
     }()
+    
+    weak var delegate: HomeViewControllerDelegate?
+    
+    private var imageUrlString: String = ""
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -64,7 +68,8 @@ class PhoneBookViewController: UIViewController {
     }
     
     @objc func addPhoneData() {
-        print("데이터 저장")
+        delegate?.addItemButtonTapped(profile: imageUrlString, name: nameLabel.text, phoneNumber: phoneNumberLabel.text)
+        navigationController?.popViewController(animated: true)
     }
     
     @objc func generateRandomImage() {
@@ -76,6 +81,7 @@ class PhoneBookViewController: UIViewController {
             switch result {
             case .success(let result):
                 let imageUrl = result.sprites.frontDefault
+                self?.imageUrlString = imageUrl
                 AF.request(imageUrl).responseData { response in
                     guard let data = response.data else { return }
                     self?.profileImage.image = UIImage(data: data)
@@ -93,6 +99,7 @@ class PhoneBookViewController: UIViewController {
     }
     
     private func setupUI() {
+        generateRandomImage()
         [profileImage, imageButton, nameLabel, phoneNumberLabel]
             .forEach { stackView.addSubview($0) }
         
