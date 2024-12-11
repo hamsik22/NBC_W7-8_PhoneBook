@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - Core Data stack
 
+    /// CoreData에서 데이터를 저장하고 관리하는 데 필요한 핵심 객체
     lazy var persistentContainer: NSPersistentContainer = {
         /*
          The persistent container for the application. This implementation
@@ -52,6 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - Core Data Saving support
 
+    /// 데이터의 업데이트(추가, 업데이트, 삭제 등)가 일어났으면 saveContext() 를 호출
     func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {

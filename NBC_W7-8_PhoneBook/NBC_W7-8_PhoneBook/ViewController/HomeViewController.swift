@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import CoreData
 
 class HomeViewController: UIViewController {
     
@@ -51,13 +52,20 @@ class HomeViewController: UIViewController {
                                      PhoneBookData(image: UIImage(systemName: "person"),
                                                    name: "name", phoneNumber: "010-0000-0000")]
     
+    var container: NSPersistentContainer!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         view.backgroundColor = .white
         setupUI()
         title = "친구 목록"
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addItemButton)
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        self.container = appDelegate.persistentContainer
+        createCoreData(profile: "URL", name: "Test1", phoneNumber: "010-111-222")
+        readCoreData()
+        updateCoreData(oldName: "Test1", newName: "Success")
+        deleteCoreData(name: "Success")
     }
     
     private func setupUI() {
@@ -128,4 +136,79 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    // MARK: - CoreData
+    
+    // TODO: 데이터 생성
+    func createCoreData(profile: String, name: String, phoneNumber: String) {
+        guard let entity = NSEntityDescription.entity(forEntityName: PhoneBook.className, in: self.container.viewContext) else { return }
+        let newPhoneBook = NSManagedObject(entity: entity, insertInto: self.container.viewContext)
+        newPhoneBook.setValue(profile, forKey: PhoneBook.Key.profile)
+        newPhoneBook.setValue(name, forKey: PhoneBook.Key.name)
+        newPhoneBook.setValue(phoneNumber, forKey: PhoneBook.Key.phoneNumber)
+        
+        do {
+            try self.container.viewContext.save()
+            print("저장 성공: ", name, phoneNumber)
+        } catch {
+            print("저장 실패: ", name, phoneNumber)
+            print("Error: ", error)
+        }
+    }
+    // TODO: 데이터 조회
+    func readCoreData() {
+        do {
+            let phoneBooks = try self.container.viewContext.fetch(PhoneBook.fetchRequest())
+            
+            for phoneBook in phoneBooks as [NSManagedObject] {
+                if let name = phoneBook.value(forKey: PhoneBook.Key.name) as? String,
+                   let phoneNumber = phoneBook.value(forKey: PhoneBook.Key.phoneNumber) as? String,
+                   let profile = phoneBook.value(forKey: PhoneBook.Key.profile) {
+                    print("profile: \(profile), name: \(name), phoneNumber: \(phoneNumber)")
+                }
+            }
+        } catch {
+            print("데이터 읽기 실패")
+            print("Error: ", error)
+        }
+    }
+    // TODO: 데이터 변경
+    func updateCoreData(oldName: String, newName: String) {
+        let fetchRequest = PhoneBook.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", oldName)
+        do {
+            let result = try self.container.viewContext.fetch(fetchRequest)
+            
+            for data in result as [NSManagedObject] {
+                data.setValue(newName, forKey: PhoneBook.Key.name)
+                
+                try self.container.viewContext.save()
+                print("데이터 수정 완료: \(oldName) -> \(newName)")
+            }
+        } catch {
+            print("데이터 수정 실패")
+            print("Error: ", error)
+        }
+    }
+    // TODO: 데이터 삭제
+    func deleteCoreData(name: String) {
+        let fetchRequest = PhoneBook.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "name == %@", name)
+        
+        do {
+            let result = try self.container.viewContext.fetch(fetchRequest)
+            
+            for data in result as [NSManagedObject] {
+                self.container.viewContext.delete(data)
+                print("\(name) 삭제")
+            }
+            
+            try self.container.viewContext.save()
+            print("\(name) 삭제완료")
+        } catch {
+            print("데이터 삭제 실패")
+            print("Error: ", error)
+        }
+    }
+    
 }
+
