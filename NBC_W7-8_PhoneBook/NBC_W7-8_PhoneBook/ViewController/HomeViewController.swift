@@ -66,6 +66,7 @@ class HomeViewController: UIViewController {
         readCoreData()
         updateCoreData(oldName: "Test1", newName: "Success")
         deleteCoreData(name: "Success")
+        deleteCoreData(name: "Name")
     }
     
     private func setupUI() {
@@ -110,6 +111,7 @@ class HomeViewController: UIViewController {
     @objc func goToPhoneBookVC() {
         print("화면이동")
         let phoneBookVC = PhoneBookViewController()
+        phoneBookVC.delegate = self
         if let navigationController = navigationController {
             navigationController.pushViewController(phoneBookVC, animated: true)
         }
@@ -148,7 +150,7 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         
         do {
             try self.container.viewContext.save()
-            print("저장 성공: ", name, phoneNumber)
+            print("저장 성공: ", !profile.isEmpty, name, phoneNumber)
         } catch {
             print("저장 실패: ", name, phoneNumber)
             print("Error: ", error)
@@ -212,3 +214,12 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     
 }
 
+extension HomeViewController: HomeViewControllerDelegate {
+    func addItemButtonTapped(profile: String, name: String, phoneNumber: String) {
+        createCoreData(profile: profile, name: name, phoneNumber: phoneNumber)
+    }
+}
+
+protocol HomeViewControllerDelegate: AnyObject {
+    func addItemButtonTapped(profile: String, name: String, phoneNumber: String)
+}
