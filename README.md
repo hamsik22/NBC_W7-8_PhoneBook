@@ -7,22 +7,24 @@
 ## 사용 스킬
 ![Swift](https://img.shields.io/badge/swift-F54A2A?style=for-the-badge&logo=swift&logoColor=white)
 ![UIKit](https://img.shields.io/badge/UIKit-2396F3?style=for-the-badge&logo=uikit&logoColor=white)
-
+- `CoreData`
+- `Alamofire`
+- `SnapKit`
 
 ## 트러블슈팅
 
 ## 과제 리스트
 ### **--- 필수 구현 ---**
-- [ ] Level 1 : 초기 UI 구현(`UITableView`, `UILabel`, `UIButton`)
-- [ ] Level 2 : 연락처 추가 화면(`UINavigationController.push`)
-- [ ] Level 3 : 상단 `NavigationBar` 구현
-- [ ] Level 4 : `API` 연결
-- [ ] Level 5 : 디스크 저장(`CoreData`, `UserDefaults`)
+- [x] [Level 1 : 초기 UI 구현(`UITableView`, `UILabel`, `UIButton`)](https://github.com/hamsik22/NBC_W7-8_PhoneBook/pull/1)
+- [x] [Level 2 : 연락처 추가 화면(`UINavigationController.push`)](https://github.com/hamsik22/NBC_W7-8_PhoneBook/pull/2)
+- [x] [Level 3 : 상단 `NavigationBar` 구현](https://github.com/hamsik22/NBC_W7-8_PhoneBook/pull/3)
+- [x] [Level 4 : `API` 연결](https://github.com/hamsik22/NBC_W7-8_PhoneBook/pull/4)
+- [x] [Level 5 : 디스크 저장(`CoreData`, `UserDefaults`)](https://github.com/hamsik22/NBC_W7-8_PhoneBook/pull/5)
 
 ### **--- 도전 과제 ---**
-- [ ] Level 6 : 연락처 상시 이름 순 정렬
-- [ ] Level 7 : 연락처 상세/편집 페이지
-- [ ] Level 8 : 연락처 수정 시, 디스크 정보 업데이트
+- [x] [Level 6 : 연락처 상시 이름 순 정렬](https://github.com/hamsik22/NBC_W7-8_PhoneBook/pull/6)
+- [x] [Level 7 : 연락처 상세/편집 페이지](https://github.com/hamsik22/NBC_W7-8_PhoneBook/pull/6)
+- [x] [Level 8 : 연락처 수정 시, 디스크 정보 업데이트](https://github.com/hamsik22/NBC_W7-8_PhoneBook/pull/6)
 
 ### **--- Extra Mission ---**
 - [ ] Ex 1 : 프로필 이미지 크기조절
