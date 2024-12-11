@@ -69,6 +69,7 @@ class HomeViewController: UIViewController {
         phoneBookData.removeAll()
         readCoreData()
         mainTableView.reloadData()
+        phoneBookData.sort(by: { $0.name < $1.name })
     }
     
     private func setupUI() {
@@ -122,7 +123,19 @@ class HomeViewController: UIViewController {
 }
 
 // MARK: - Extensions
+
 extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedData = phoneBookData[indexPath.row]
+        let phoneBookVC = PhoneBookViewController()
+        phoneBookVC.delegate = self
+        phoneBookVC.setPhoneBookData(data: selectedData)
+        if let navigationController = navigationController {
+            navigationController.pushViewController(phoneBookVC, animated: true)
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return phoneBookData.count
     }
@@ -145,7 +158,21 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    // MARK: - CoreData
+
+}
+
+extension HomeViewController: HomeViewControllerDelegate {
+    func updateItemButtonTappedfunc(oldValue: PhoneBookData?, profile: String, name: String, phoneNumber: String) {
+        updateCoreData(oldValue: oldValue, profile: profile, name: name, phoneNumber: phoneNumber)
+    }
+
+    func createItemButtonTapped(profile: String, name: String, phoneNumber: String) {
+        createCoreData(profile: profile, name: name, phoneNumber: phoneNumber)
+    }
+}
+
+// MARK: - CoreData Functions
+extension HomeViewController {
     
     /// 데이터 생성
     func createCoreData(profile: String, name: String, phoneNumber: String) {
@@ -184,17 +211,21 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     ///  데이터 변경
-    func updateCoreData(oldName: String, newName: String) {
+    func updateCoreData(oldValue: PhoneBookData?, profile: String, name: String, phoneNumber: String) {
+        guard let oldValue else { return }
         let fetchRequest = PhoneBook.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "name == %@", oldName)
+        fetchRequest.predicate = NSPredicate(format: "name == %@", oldValue.name)
+        
         do {
             let result = try self.container.viewContext.fetch(fetchRequest)
             
             for data in result as [NSManagedObject] {
-                data.setValue(newName, forKey: PhoneBook.Key.name)
+                data.setValue(name, forKey: PhoneBook.Key.name)
+                data.setValue(profile, forKey: PhoneBook.Key.profile)
+                data.setValue(phoneNumber, forKey: PhoneBook.Key.phoneNumber)
                 
                 try self.container.viewContext.save()
-                print("데이터 수정 완료: \(oldName) -> \(newName)")
+                print("데이터 수정 완료: \(oldValue.name) -> \(name)\n\(oldValue.phoneNumber) -> \(phoneNumber)")
             }
         } catch {
             print("데이터 수정 실패")
@@ -224,12 +255,8 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension HomeViewController: HomeViewControllerDelegate {
-    func addItemButtonTapped(profile: String, name: String, phoneNumber: String) {
-        createCoreData(profile: profile, name: name, phoneNumber: phoneNumber)
-    }
-}
-
+// MARK: - Protocol
 protocol HomeViewControllerDelegate: AnyObject {
-    func addItemButtonTapped(profile: String, name: String, phoneNumber: String)
+    func createItemButtonTapped(profile: String, name: String, phoneNumber: String)
+    func updateItemButtonTappedfunc(oldValue: PhoneBookData?, profile: String, name: String, phoneNumber: String)
 }

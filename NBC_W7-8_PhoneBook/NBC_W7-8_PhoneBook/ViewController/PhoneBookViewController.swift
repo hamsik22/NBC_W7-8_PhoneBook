@@ -55,6 +55,8 @@ class PhoneBookViewController: UIViewController {
         return label
     }()
     
+    private var phoneBookData: PhoneBookData?
+    
     weak var delegate: HomeViewControllerDelegate?
     
     private var imageUrlString: String = ""
@@ -62,44 +64,41 @@ class PhoneBookViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        title = "연락처 추가"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "적용", style: .plain, target: self, action: #selector(addPhoneData))
+        setupTitle()
+        setupRightBarButton()
+        setupProfile()
         setupUI()
     }
     
-    @objc func addPhoneData() {
-        delegate?.addItemButtonTapped(profile: imageUrlString, name: nameLabel.text, phoneNumber: phoneNumberLabel.text)
-        navigationController?.popViewController(animated: true)
-    }
-    
-    @objc func generateRandomImage() {
-        print("이미지 생성")
-        let urlComponents = URLComponents(string: "https://pokeapi.co/api/v2/pokemon/\(Int.random(in: 1...1000))")
-        guard let url = urlComponents?.url else { return }
-        
-        fetchDataByAlamofire(url: url) { [weak self] (result: Result<Poketmon, AFError>) in
-            switch result {
-            case .success(let result):
-                let imageUrl = result.sprites.frontDefault
-                self?.imageUrlString = imageUrl
-                AF.request(imageUrl).responseData { response in
-                    guard let data = response.data else { return }
-                    self?.profileImage.image = UIImage(data: data)
-                }
-            case .failure(let error):
-                print("error : \(error)")
-            }
+    private func setupRightBarButton() {
+        if let _ = phoneBookData {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "수정", style: .plain, target: self, action: #selector(updatePhoneData))
+        } else {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(title: "추가", style: .plain, target: self, action: #selector(createPhoneData))
         }
     }
     
-    private func fetchDataByAlamofire<T: Decodable>(url: URL, completion: @escaping (Result<T, AFError>) -> Void) {
-        AF.request(url).responseDecodable(of: T.self) { response in
-            completion(response.result)
+    private func setupTitle() {
+        if let phoneBookData = phoneBookData {
+            title = phoneBookData.name
+        } else {
+            title = "연락처 추가"
+        }
+    }
+    
+    private func setupProfile() {
+        if let phoneBookData = phoneBookData {
+            nameLabel.text = phoneBookData.name
+            phoneNumberLabel.text = phoneBookData.phoneNumber
+            setProfileImage()
+        } else {
+            nameLabel.text = ""
+            phoneNumberLabel.text = ""
         }
     }
     
     private func setupUI() {
-        generateRandomImage()
+        if let _ = phoneBookData { } else { generateRandomImage() }
         [profileImage, imageButton, nameLabel, phoneNumberLabel]
             .forEach { stackView.addSubview($0) }
         
@@ -140,6 +139,62 @@ class PhoneBookViewController: UIViewController {
             stack.width.equalToSuperview()
             stack.top.equalTo(view.safeAreaLayoutGuide).offset(30)
             
+        }
+    }
+    
+    @objc private func createPhoneData() {
+        delegate?.createItemButtonTapped(profile: imageUrlString, name: nameLabel.text, phoneNumber: phoneNumberLabel.text)
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func updatePhoneData() {
+        delegate?.updateItemButtonTappedfunc(oldValue: phoneBookData, profile: imageUrlString, name: nameLabel.text, phoneNumber: phoneNumberLabel.text)
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func generateRandomImage() {
+        print("이미지 생성")
+        let urlComponents = URLComponents(string: "https://pokeapi.co/api/v2/pokemon/\(Int.random(in: 1...1000))")
+        guard let url = urlComponents?.url else { return }
+        
+        fetchDataByAlamofire(url: url) { [weak self] (result: Result<Poketmon, AFError>) in
+            switch result {
+            case .success(let result):
+                let imageUrl = result.sprites.frontDefault
+                self?.imageUrlString = imageUrl
+                AF.request(imageUrl).responseData { response in
+                    guard let data = response.data else { return }
+                    DispatchQueue.main.async {
+                        self?.profileImage.image = UIImage(data: data)
+                    }
+                }
+            case .failure(let error):
+                print("error : \(error)")
+            }
+        }
+    }
+    
+    func setPhoneBookData(data: PhoneBookData) {
+        self.phoneBookData = data
+    }
+    
+    private func setProfileImage() {
+        guard let imageUrlString = phoneBookData?.image else { return }
+        let urlComponents = URLComponents(string: imageUrlString)
+        guard let url = urlComponents?.url else { return }
+        
+        AF.request(url).response { respose in
+            if let data = respose.data {
+                DispatchQueue.main.async {
+                    self.profileImage.image = UIImage(data: data)
+                }
+            }
+        }
+    }
+    
+    private func fetchDataByAlamofire<T: Decodable>(url: URL, completion: @escaping (Result<T, AFError>) -> Void) {
+        AF.request(url).responseDecodable(of: T.self) { response in
+            completion(response.result)
         }
     }
 
