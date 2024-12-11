@@ -64,25 +64,36 @@ class PhoneBookViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        title = "연락처 추가"
+        setupTitle()
         setupRightBarButton()
-        if let phoneBookData = phoneBookData {
-            nameLabel.text = phoneBookData.name
-            phoneNumberLabel.text = phoneBookData.phoneNumber
-            setProfileImage()
-            
-        } else {
-            nameLabel.text = ""
-            phoneNumberLabel.text = ""
-        }
+        setupProfile()
         setupUI()
     }
     
     private func setupRightBarButton() {
-        if let phoneBookData = phoneBookData {
+        if let _ = phoneBookData {
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "수정", style: .plain, target: self, action: #selector(updatePhoneData))
         } else {
             navigationItem.rightBarButtonItem = UIBarButtonItem(title: "추가", style: .plain, target: self, action: #selector(createPhoneData))
+        }
+    }
+    
+    private func setupTitle() {
+        if let phoneBookData = phoneBookData {
+            title = phoneBookData.name
+        } else {
+            title = "연락처 추가"
+        }
+    }
+    
+    private func setupProfile() {
+        if let phoneBookData = phoneBookData {
+            nameLabel.text = phoneBookData.name
+            phoneNumberLabel.text = phoneBookData.phoneNumber
+            setProfileImage()
+        } else {
+            nameLabel.text = ""
+            phoneNumberLabel.text = ""
         }
     }
     
