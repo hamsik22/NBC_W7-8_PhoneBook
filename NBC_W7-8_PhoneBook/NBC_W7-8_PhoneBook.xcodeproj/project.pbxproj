@@ -15,7 +15,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		C33901812D068D5800480384 /* Exceptions for "NBC_W7-8_PhoneBook" folder in "NBC_W7-8_PhoneBook" target */ = {
+		C33901CC2D06C46D00480384 /* Exceptions for "NBC_W7-8_PhoneBook" folder in "NBC_W7-8_PhoneBook" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -25,10 +25,10 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		C339016E2D068D5700480384 /* NBC_W7-8_PhoneBook */ = {
+		C33901C22D06C46D00480384 /* NBC_W7-8_PhoneBook */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				C33901812D068D5800480384 /* Exceptions for "NBC_W7-8_PhoneBook" folder in "NBC_W7-8_PhoneBook" target */,
+				C33901CC2D06C46D00480384 /* Exceptions for "NBC_W7-8_PhoneBook" folder in "NBC_W7-8_PhoneBook" target */,
 			);
 			path = "NBC_W7-8_PhoneBook";
 			sourceTree = "<group>";
@@ -50,7 +50,7 @@
 		C33901632D068D5700480384 = {
 			isa = PBXGroup;
 			children = (
-				C339016E2D068D5700480384 /* NBC_W7-8_PhoneBook */,
+				C33901C22D06C46D00480384 /* NBC_W7-8_PhoneBook */,
 				C339016D2D068D5700480384 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -79,7 +79,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				C339016E2D068D5700480384 /* NBC_W7-8_PhoneBook */,
+				C33901C22D06C46D00480384 /* NBC_W7-8_PhoneBook */,
 			);
 			name = "NBC_W7-8_PhoneBook";
 			packageProductDependencies = (
