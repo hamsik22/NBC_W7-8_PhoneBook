@@ -69,6 +69,7 @@ class HomeViewController: UIViewController {
         phoneBookData.removeAll()
         readCoreData()
         mainTableView.reloadData()
+        phoneBookData.sort(by: { $0.name < $1.name })
     }
     
     private func setupUI() {
