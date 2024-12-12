@@ -10,13 +10,6 @@ import SnapKit
 
 class ProfileCell: UITableViewCell {
     
-    let profileStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 10
-        return stackView
-    }()
-    
     let profileImage: UIImageView = {
         let image = UIImageView()
         image.backgroundColor = .white
