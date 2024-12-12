@@ -11,8 +11,6 @@
 - `Alamofire`
 - `SnapKit`
 
-## 트러블슈팅
-
 ## 과제 리스트
 ### **--- 필수 구현 ---**
 - [x] [Level 1 : 초기 UI 구현(`UITableView`, `UILabel`, `UIButton`)](https://github.com/hamsik22/NBC_W7-8_PhoneBook/pull/1)
