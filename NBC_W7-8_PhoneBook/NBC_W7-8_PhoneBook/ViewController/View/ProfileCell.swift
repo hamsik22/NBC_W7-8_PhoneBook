@@ -24,6 +24,7 @@ class ProfileCell: UITableViewCell {
         image.layer.cornerRadius = 30
         image.layer.borderWidth = 1
         image.layer.borderColor = UIColor.black.cgColor
+        image.clipsToBounds = true
         return image
     }()
     

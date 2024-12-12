@@ -26,6 +26,7 @@ class PhoneBookViewController: UIViewController {
         image.layer.cornerRadius = 100
         image.layer.borderWidth = 1
         image.layer.borderColor = UIColor.black.cgColor
+        image.clipsToBounds = true
         return image
     }()
     
