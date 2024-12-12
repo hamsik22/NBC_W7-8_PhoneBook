@@ -11,8 +11,6 @@
 - `Alamofire`
 - `SnapKit`
 
-## 트러블슈팅
-
 ## 과제 리스트
 ### **--- 필수 구현 ---**
 - [x] [Level 1 : 초기 UI 구현(`UITableView`, `UILabel`, `UIButton`)](https://github.com/hamsik22/NBC_W7-8_PhoneBook/pull/1)
@@ -27,7 +25,7 @@
 - [x] [Level 8 : 연락처 수정 시, 디스크 정보 업데이트](https://github.com/hamsik22/NBC_W7-8_PhoneBook/pull/6)
 
 ### **--- Extra Mission ---**
-- [ ] Ex 1 : 프로필 이미지 크기조절
+- [x] Ex 1 : 프로필 이미지 크기조절
 - [ ] Ex 2 : 데이터 증가에 따른 이상현상(이미지, 텍스트 오류)
 - [ ] Ex 3 : 연락처 추가 버튼 안정화
 - [ ] Ex 4 : 추가 예외처리
